@@ -214,17 +214,17 @@ int start_server() {
 }
 
 int main(int argc, char *argv[]) {
-    printf("wagwan \n");
+    printf("[*] Launching maf_server... \n");
 
-    kern_return_t err = host_get_special_port(mach_host_self(), HOST_LOCAL_NODE, 4, &tfp0);
+    kern_return_t err = get_kernel_task(&tfp0);
     if (err != KERN_SUCCESS) {
-        printf("err getting hgsp4: %s", mach_error_string(err));
+        printf("[!] Error getting kernel task: %s \n", mach_error_string(err));
         return 0;
     }
-    printf("got tfp0: %x \n", tfp0);
+    printf("[*] Got kernel task: %x \n", tfp0);
 
     kaslr_shift = get_kernel_base() - 0xFFFFFFF007004000;
-    printf("got kaslr_shift: %llx \n", kaslr_shift);
+    printf("[*] Got kernel slide: %llx \n", kaslr_shift);
 
     return start_server();
 }
